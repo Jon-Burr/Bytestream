@@ -17,8 +17,7 @@
 #include <cstdint>
 #include <type_traits>
 
-namespace Bytestream
-{
+namespace Bytestream {
     /**
      * @brief Calculate the minimum number of bytes required to hold the given
      * number of bits
@@ -42,10 +41,10 @@ namespace Bytestream
     template <std::size_t N> struct BytesInfo {
         static_assert(N <= 8, "No native uint type larger than 8 bytes");
         using uint_t = std::conditional_t<
-            N <= 1, uint8_t,
-            std::conditional_t<
-                N <= 2, uint16_t,
-                std::conditional_t<N <= 4, uint32_t, uint64_t>>>;
+                N <= 1, uint8_t,
+                std::conditional_t<
+                        N <= 2, uint16_t,
+                        std::conditional_t<N <= 4, uint32_t, uint64_t>>>;
         inline static constexpr std::size_t nBytes = sizeof(uint_t);
     };
 
@@ -67,6 +66,8 @@ namespace Bytestream
     constexpr inline uint32_t swapEndianness(uint32_t value) noexcept;
     /// Swap the endianness of a number
     constexpr inline uint64_t swapEndianness(uint64_t value) noexcept;
+    /// Swap the endianness of a byte array in place
+    void swapEndiannessInPlace(void *data, std::size_t size);
 
 } // namespace Bytestream
 

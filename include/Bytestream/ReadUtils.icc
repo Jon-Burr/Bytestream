@@ -1,25 +1,21 @@
 #include <cstring>
 #include <stdexcept>
 
-namespace Bytestream
-{
-    constexpr inline std::byte createLeftMask(std::size_t nBits) noexcept
-    {
+namespace Bytestream {
+    constexpr inline std::byte createLeftMask(std::size_t nBits) noexcept {
         return ~(~std::byte{0} >> nBits);
     }
 
-    constexpr inline std::byte createRightMask(std::size_t nBits) noexcept
-    {
+    constexpr inline std::byte createRightMask(std::size_t nBits) noexcept {
         return ~(~std::byte{0} << nBits);
     }
 
     template <typename T>
     std::enable_if_t<is_uint_v<T>, std::byte *>
-    ptrToStartByte(T &value, std::size_t nBytes, bool zeroUnused)
-    {
+    ptrToStartByte(T &value, std::size_t nBytes, bool zeroUnused) {
 
-        if (nBytes > sizeof(T))
-            [[unlikely]] throw std::out_of_range(std::to_string(nBytes));
+        if (nBytes > sizeof(T)) [[unlikely]]
+            throw std::out_of_range(std::to_string(nBytes));
         std::size_t nUnused = sizeof(T) - nBytes;
         if constexpr (std::endian::native == std::endian::big) {
             // LSBs are at the right of the number

@@ -1,25 +1,20 @@
 #include "Bytestream/ReadUtils.h"
 
-namespace Bytestream
-{
+namespace Bytestream {
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, void> ConstByteArrayView::readBits(
-        T &value, std::size_t bitPos, std::size_t nBits,
-        std::endian sourceEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, void>
+    ConstByteArrayView::readBits(T &value, std::size_t bitPos,
+                                 std::size_t nBits,
+                                 std::endian sourceEndianness) const {
         std::size_t nBytes = nBytesToHold(nBits);
         std::byte *start = ptrToStartByte(value, nBytes);
-        readBitsInto(start, bitPos, nBits);
-        if (sourceEndianness != std::endian::native)
-            for (std::size_t idx = 0; idx < nBytes / 2; ++idx)
-                std::swap(*(start + idx), *(start + nBytes - idx - 1));
+        readBitsInto(start, bitPos, nBits, sourceEndianness);
     }
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, T> ConstByteArrayView::readBits(
-        std::size_t bitPos, std::size_t nBits,
-        std::endian sourceEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, T>
+    ConstByteArrayView::readBits(std::size_t bitPos, std::size_t nBits,
+                                 std::endian sourceEndianness) const {
         T value;
         readBits(value, bitPos, nBits, sourceEndianness);
         return value;
@@ -35,15 +30,12 @@ namespace Bytestream
      * @param sourceEndianness The endianness of the source stream
      */
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, void> ConstByteArrayView::readBytes(
-        T &value, std::size_t bytePos, std::size_t nBytes,
-        std::endian sourceEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, void>
+    ConstByteArrayView::readBytes(T &value, std::size_t bytePos,
+                                  std::size_t nBytes,
+                                  std::endian sourceEndianness) const {
         std::byte *start = ptrToStartByte(value, nBytes);
-        readBitsInto(start, bytePos, nBytes);
-        if (sourceEndianness != std::endian::native)
-            for (std::size_t idx = 0; idx < nBytes / 2; ++idx)
-                std::swap(*(start + idx), *(start + nBytes - idx - 1));
+        readBytesInto(start, bytePos, nBytes, sourceEndianness);
     }
 
     /**
@@ -55,18 +47,16 @@ namespace Bytestream
      * @param sourceEndianness The endianness of the source stream
      */
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, T> ConstByteArrayView::readBytes(
-        std::size_t bytePos, std::size_t nBytes,
-        std::endian sourceEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, T>
+    ConstByteArrayView::readBytes(std::size_t bytePos, std::size_t nBytes,
+                                  std::endian sourceEndianness) const {
         T value;
         readBytes(value, bytePos, nBytes, sourceEndianness);
         return value;
     }
 
     template <std::size_t N>
-    std::bitset<N> ConstByteArrayView::readBitset(std::size_t bitPos)
-    {
+    std::bitset<N> ConstByteArrayView::readBitset(std::size_t bitPos) {
         typename BitsInfo<N>::uint_t value;
         readBits(value, bitPos, N, std::endian::big);
         return value;

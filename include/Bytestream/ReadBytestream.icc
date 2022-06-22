@@ -1,0 +1,26 @@
+#include "Bytestream/Utils.h"
+
+namespace Bytestream {
+    template <typename T>
+    std::enable_if_t<is_uint_v<T>, void>
+    ReadBytestream::readBits(T &target, std::size_t nBits,
+                             std::endian sourceEndianness) {
+        readBitsInto(ptrToStartByte(target, nBytesToHold(nBits)), nBits,
+                     sourceEndianness);
+    }
+
+    template <typename T>
+    std::enable_if_t<is_uint_v<T>, ReadBytestream &>
+    operator>>(ReadBytestream &stream, T &value) {
+        stream.readBits(value, sizeof(T) * CHAR_BIT, std::endian::big);
+        return stream;
+    }
+
+    template <std::size_t N>
+    ReadBytestream &operator>>(ReadBytestream &stream, std::bitset<N> &value) {
+        typename BitsInfo<N>::uint_t target;
+        stream.readBits(target, N, std::endian::big);
+        value = target;
+        return stream;
+    }
+} // namespace Bytestream

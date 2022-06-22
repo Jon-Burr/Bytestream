@@ -4,9 +4,10 @@ target_sources(Bytestream PRIVATE
     ByteArrayView.cxx
     ConstByteArrayView.cxx
     ReadBytestream.cxx
+    ReadBytestreamHelpers.cxx
     ReadUtils.cxx
     StringUtils.cxx
     Utils.cxx
 )
-target_include_directories(Bytestream PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(Bytestream PUBLIC ../include)
 target_compile_features(Bytestream PUBLIC cxx_std_20)
