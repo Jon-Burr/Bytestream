@@ -34,17 +34,17 @@ namespace Bytestream {
 
     void ConstByteArrayView::readBitsInto(void *target, std::size_t bitPos,
                                           std::size_t nBits,
-                                          std::endian sourceEndianness) const {
+                                          Endian sourceEndianness) const {
         copyBits(target, data(), size() * CHAR_BIT - bitPos - nBits, nBits);
-        if (sourceEndianness != std::endian::native)
+        if (sourceEndianness != Endian::Native)
             swapEndiannessInPlace(target, nBytesToHold(nBits));
     }
 
     void ConstByteArrayView::readBytesInto(void *target, std::size_t bytePos,
                                            std::size_t nBytes,
-                                           std::endian sourceEndianness) const {
+                                           Endian sourceEndianness) const {
         std::memcpy(target, data() + size() - bytePos - nBytes, nBytes);
-        if (sourceEndianness != std::endian::native)
+        if (sourceEndianness != Endian::Native)
             swapEndiannessInPlace(target, nBytes);
     }
 

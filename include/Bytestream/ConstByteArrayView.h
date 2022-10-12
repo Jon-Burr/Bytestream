@@ -11,6 +11,7 @@
 #ifndef BYTESTREAM_CONSTBYTEARRAYVIEW_H
 #define BYTESTREAM_CONSTBYTEARRAYVIEW_H
 
+#include "Bytestream/Endian.h"
 #include "Bytestream/Utils.h"
 #include <bit>
 #include <bitset>
@@ -19,13 +20,15 @@
 #include <ostream>
 #include <type_traits>
 
-namespace Bytestream {
+namespace Bytestream
+{
     /**
      * @brief A constant view over unformatted bytes
      *
      * The indexing of the array starts from the rightmost byte/bit
      */
-    class ConstByteArrayView {
+    class ConstByteArrayView
+    {
     public:
         using iterator = std::reverse_iterator<const std::byte *>;
         using reverse_iterator = const std::byte *;
@@ -55,7 +58,8 @@ namespace Bytestream {
         const std::byte *data() const { return m_data; }
 
         /// Iterator to the rightmost byte
-        iterator begin() const {
+        iterator begin() const
+        {
             return std::make_reverse_iterator(m_data + m_nBytes);
         }
         /// Iterator past the leftmost byte
@@ -66,7 +70,8 @@ namespace Bytestream {
         reverse_iterator rend() const { return m_data + m_nBytes; }
 
         /// Access the specified byte (no bounds checking)
-        std::byte operator[](std::size_t idx) const {
+        std::byte operator[](std::size_t idx) const
+        {
             return *(m_data + m_nBytes - idx - 1);
         }
 
@@ -101,7 +106,7 @@ namespace Bytestream {
         std::enable_if_t<is_uint_v<T>, void>
         readBits(T &value, std::size_t bitPos,
                  std::size_t nBits = sizeof(T) * CHAR_BIT,
-                 std::endian sourceEndianness = std::endian::big) const;
+                 Endian sourceEndianness = Endian::Big) const;
 
         /**
          * @brief Read bits into a value of the specified type
@@ -117,7 +122,7 @@ namespace Bytestream {
         template <typename T = uint32_t>
         std::enable_if_t<is_uint_v<T>, T>
         readBits(std::size_t bitPos, std::size_t nBits = sizeof(T) * CHAR_BIT,
-                 std::endian sourceEndianness = std::endian::big) const;
+                 Endian sourceEndianness = Endian::Big) const;
 
         /**
          * @brief Read bytes into the target value
@@ -131,7 +136,7 @@ namespace Bytestream {
         template <typename T>
         std::enable_if_t<is_uint_v<T>, void>
         readBytes(T &value, std::size_t bytePos, std::size_t nBytes = sizeof(T),
-                  std::endian sourceEndianness = std::endian::big) const;
+                  Endian sourceEndianness = Endian::Big) const;
 
         /**
          * @brief Read bytes into a value of the specified type
@@ -144,17 +149,18 @@ namespace Bytestream {
         template <typename T = uint32_t>
         std::enable_if_t<is_uint_v<T>, T>
         readBytes(std::size_t bytePos, std::size_t nBytes = sizeof(T),
-                  std::endian sourceEndianness = std::endian::big) const;
+                  Endian sourceEndianness = Endian::Big) const;
 
         /// Read a bitset from the specified position
-        template <std::size_t N> std::bitset<N> readBitset(std::size_t bitPos);
+        template <std::size_t N>
+        std::bitset<N> readBitset(std::size_t bitPos);
 
         void
         readBitsInto(void *target, std::size_t bitPos, std::size_t nBits,
-                     std::endian sourceEndianness = std::endian::big) const;
+                     Endian sourceEndianness = Endian::Big) const;
         void
         readBytesInto(void *target, std::size_t bytePos, std::size_t nBytes,
-                      std::endian sourceEndianness = std::endian::big) const;
+                      Endian sourceEndianness = Endian::Big) const;
 
     private:
         const std::byte *const m_data;

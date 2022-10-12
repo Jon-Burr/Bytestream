@@ -3,7 +3,7 @@
 
 namespace Bytestream {
     Reader::Reader(void *target, std::size_t nBits,
-                   std::endian sourceEndianness)
+                   Endian sourceEndianness)
             : m_target(reinterpret_cast<std::byte *>(target)), m_nBits(nBits),
               m_endianness(sourceEndianness) {}
 
@@ -15,7 +15,7 @@ namespace Bytestream {
 
     ExpectsHandle::ExpectsHandle(const void *expected, std::size_t nBits)
             : Reader(new std::byte[nBytesToHold(nBits)], nBits,
-                     std::endian::native),
+                     Endian::Native),
               m_expected(expected) {}
 
     ExpectsHandle::ExpectsHandle(const ConstByteArrayView &view)

@@ -66,7 +66,7 @@ namespace Bytestream {
          * stream
          */
         void readBitsInto(std::byte *target, std::size_t nBits,
-                          std::endian sourceEndianness);
+                          Endian sourceEndianness);
         /**
          * @brief Read out a number of unformatted bytes into a view
          *
@@ -86,7 +86,7 @@ namespace Bytestream {
         template <typename T>
         std::enable_if_t<is_uint_v<T>, void>
         readBits(T &target, std::size_t nBits = sizeof(T) * CHAR_BIT,
-                 std::endian sourceEndianness = std::endian::big);
+                 Endian sourceEndianness = Endian::Big);
 
     private:
         ConstByteArrayView m_view;

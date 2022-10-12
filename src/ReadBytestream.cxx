@@ -60,7 +60,7 @@ namespace Bytestream {
     }
 
     void ReadBytestream::readBitsInto(std::byte *target, std::size_t nBits,
-                                      std::endian sourceEndianness) {
+                                      Endian sourceEndianness) {
         if (!good())
             return;
         if (nBits > remaining()) {

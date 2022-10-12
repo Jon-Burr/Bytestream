@@ -4,24 +4,24 @@
 namespace Bytestream {
     template <typename T>
     std::enable_if_t<is_uint_v<T>, Reader>
-    makeReader(T &value, std::size_t nBits, std::endian sourceEndianness) {
+    makeReader(T &value, std::size_t nBits, Endian sourceEndianness) {
         return Reader(ptrToStartByte(value, nBytesToHold(nBits)), nBits,
                       sourceEndianness);
     }
 
     template <typename T>
     std::enable_if_t<is_uint_v<T>, Reader>
-    makeReader(T &value, std::endian sourceEndianness) {
+    makeReader(T &value, Endian sourceEndianness) {
         return Reader(&value, sizeof(T) * CHAR_BIT, sourceEndianness);
     }
 
     template <typename T>
-    UIntHandle<T>::UIntHandle(std::size_t nBits, std::endian sourceEndianness)
+    UIntHandle<T>::UIntHandle(std::size_t nBits, Endian sourceEndianness)
             : Reader(&m_value, nBits, sourceEndianness) {}
 
     template <typename F, typename T>
     FloatHandle<F, T>::FloatHandle(F conversion, std::size_t nBits,
-                                   std::endian sourceEndianness)
+                                   Endian sourceEndianness)
             : Reader(&m_value, nBits, sourceEndianness),
               m_conversion(conversion) {}
 } // namespace Bytestream

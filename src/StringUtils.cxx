@@ -4,6 +4,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <system_error>
+#include <algorithm>
 
 namespace
 {
@@ -18,9 +19,11 @@ namespace
         const char *ptr = data.data();
         // Number of characters remaining
         std::size_t n = data.size();
-        while (n > 0) {
+        while (n > 0)
+        {
             // Skip over any space characters between bytes
-            if (std::isspace(*ptr)) {
+            if (std::isspace(*ptr))
+            {
                 ++ptr;
                 --n;
                 continue;
@@ -29,9 +32,8 @@ namespace
                 break;
 
             if (n < nCharsPerByte ||
-                std::any_of(ptr, ptr + nCharsPerByte, [](unsigned char c) {
-                    return std::isspace(c);
-                }))
+                std::any_of(ptr, ptr + nCharsPerByte, [](unsigned char c)
+                            { return std::isspace(c); }))
                 throw std::invalid_argument(
                     "Truncated byte: " +
                     std::string(ptr, std::min(n, nCharsPerByte)));
@@ -60,14 +62,16 @@ namespace
         std::string str((nCharsPerByte + 1) * n - 1, ' ');
         char *ptr = str.data();
         const uint8_t *data_ = reinterpret_cast<const uint8_t *>(data);
-        while (n > 0) {
+        while (n > 0)
+        {
 
             std::to_chars_result result =
                 std::to_chars(ptr, ptr + nCharsPerByte, *data_, base);
             if (result.ec != std::errc())
                 throw std::system_error(std::make_error_code(result.ec));
             std::size_t offset = ptr + nCharsPerByte - result.ptr;
-            if (offset) {
+            if (offset)
+            {
                 std::memmove(ptr + offset, ptr, nCharsPerByte - offset);
                 std::memset(ptr, '0', offset);
             }
