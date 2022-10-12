@@ -3,6 +3,7 @@
 
 namespace Bytestream
 {
+    ByteArray::ByteArray() : ByteArrayView(nullptr, 0) {}
 
     ByteArray::ByteArray(std::size_t n) : ByteArrayView(new std::byte[n], n) {}
 
