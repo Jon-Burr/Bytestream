@@ -20,7 +20,7 @@ namespace Bytestream
     ptrToStartByte(T &value, std::size_t nBytes, bool zeroUnused)
     {
 
-        if (nBytes > sizeof(T)) [[unlikely]]
+        if (nBytes > sizeof(T))
             throw std::out_of_range(std::to_string(nBytes));
         std::size_t nUnused = sizeof(T) - nBytes;
         if constexpr (Endian::Native == Endian::Big)
