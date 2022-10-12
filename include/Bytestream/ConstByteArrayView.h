@@ -13,7 +13,6 @@
 
 #include "Bytestream/Endian.h"
 #include "Bytestream/Utils.h"
-#include <bit>
 #include <bitset>
 #include <cstddef>
 #include <iterator>
