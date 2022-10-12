@@ -20,6 +20,14 @@ namespace Bytestream
         using reverse_iterator = std::byte *;
         ByteArrayView(void *data, std::size_t nBytes);
 
+        /**
+         * @brief Copy the data held in other to our view
+         *
+         * Will copy as much data from other as will fit in this. If other is
+         * shorter than this, fill bytes from the right.
+         */
+        ByteArrayView &operator=(const ConstByteArrayView &other);
+
         std::byte *data()
         {
             // NB: The const_cast here is entirely safe: we know that in truth
