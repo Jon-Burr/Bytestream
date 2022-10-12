@@ -40,6 +40,12 @@ namespace Bytestream {
         /// The number of bytes in the view
         std::size_t size() const { return m_nBytes; }
 
+        /// Does this actually point to data?
+        bool empty() const { return m_data == nullptr; }
+
+        /// Implicit conversion to bool says whether the pointer is valid
+        operator bool() const { return m_data; }
+
         /**
          * @brief The start of the underlying data array
          *

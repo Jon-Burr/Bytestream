@@ -17,6 +17,7 @@
 
 #include <bit>
 #include <bitset>
+#include <ios>
 #include <type_traits>
 namespace Bytestream {
     class ReadBytestream {
@@ -31,6 +32,30 @@ namespace Bytestream {
         void rewind(std::size_t n);
         void seek(std::size_t pos);
         void reset();
+
+        /// Is the stream in a good state?
+        bool good() const { return m_state == std::ios_base::goodbit; }
+        /// Has the stream exhausted its input?
+        bool eof() const { return m_state & std::ios_base::eofbit; }
+        /// Did the read operation fail somehow?
+        bool fail() const { return m_state & std::ios_base::failbit; }
+        /// Currently unused by internal functions
+        bool bad() const { return m_state & std::ios_base::badbit; }
+        /// Read the full current state
+        std::ios_base::iostate rdstate() const { return m_state; }
+        /// Set the state (ORed to the existing state)
+        void setstate(std::ios_base::iostate state) { m_state |= state; }
+        /// Clear the state to the provided value
+        void clear(std::ios_base::iostate state = std::ios_base::goodbit) {
+            m_state = state;
+        }
+        /// Set the EOF bit
+        void seteof() { setstate(std::ios_base::eofbit); }
+        /// Set the fail bit
+        void setfail() { setstate(std::ios_base::failbit); }
+        /// Set the bad bit
+        void setbad() { setstate(std::ios_base::badbit); }
+
         bool onByteBoundary() const;
         /**
          * @brief Read a number of bits into a target location
@@ -66,6 +91,7 @@ namespace Bytestream {
     private:
         ConstByteArrayView m_view;
         std::size_t m_pos{0};
+        std::ios_base::iostate m_state{std::ios_base::goodbit};
     };
 
     template <typename T>

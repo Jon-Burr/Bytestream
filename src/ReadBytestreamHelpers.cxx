@@ -30,7 +30,7 @@ namespace Bytestream {
     void ExpectsHandle::throwIfBad() const {
         if (!good())
             throw std::invalid_argument(
-                    "Excepted '" +
+                    "Expected '" +
                     Bytestream::toHex(expected(), nBytesToHold(nBits())) +
                     "' '" +
                     Bytestream::toHex(received(), nBytesToHold(nBits())) + "'");
@@ -41,4 +41,11 @@ namespace Bytestream {
     const void *ExpectsHandle::expected() const { return m_expected; }
 
     const void *ExpectsHandle::received() const { return m_target; }
+
+    ReadBytestream &operator>>(ReadBytestream &stream, ExpectsHandle &reader) {
+        stream >> static_cast<Reader &>(reader);
+        if (!reader.good())
+            stream.setfail();
+        return stream;
+    }
 } // namespace Bytestream

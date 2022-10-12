@@ -18,6 +18,7 @@ BOOST_AUTO_TEST_CASE(readStream) {
     stream.reset();
     std::bitset<5> bitset1;
     std::bitset<3> bitset2;
+    BOOST_TEST(stream.good());
     stream >> bitset1 >> bitset2;
     BOOST_TEST(stream.exhausted());
     BOOST_TEST(bitset1 == 0b01110);

@@ -186,6 +186,16 @@ namespace Bytestream {
     private:
         const void *m_expected;
     };
+
+    /**
+     * @brief Read the specified number of bits and check that they are as
+     * expected
+     *
+     * Sets the fail bit on the stream if the bins are not as expected
+     *
+     */
+    ReadBytestream &operator>>(ReadBytestream &stream, ExpectsHandle &reader);
+
 } // namespace Bytestream
 
 #include "Bytestream/ReadBytestreamHelpers.icc"
