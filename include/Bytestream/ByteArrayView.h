@@ -26,7 +26,7 @@ namespace Bytestream
          * Will copy as much data from other as will fit in this. If other is
          * shorter than this, fill bytes from the right.
          */
-        ByteArrayView &operator=(const ConstByteArrayView &other);
+        void copyFrom(const ConstByteArrayView &other);
 
         std::byte *data()
         {

@@ -7,7 +7,7 @@ namespace Bytestream
     ByteArrayView::ByteArrayView(void *data, std::size_t nBytes)
         : ConstByteArrayView(data, nBytes) {}
 
-    ByteArrayView &ByteArrayView::operator=(const ConstByteArrayView &other)
+    void ByteArrayView::copyFrom(const ConstByteArrayView &other)
     {
         if (other.size() >= size())
         {
@@ -17,7 +17,6 @@ namespace Bytestream
         {
             std::memcpy(data() + size() - other.size(), other.data(), size());
         }
-        return *this;
     }
 
     std::byte &ByteArrayView::at(std::size_t idx)
