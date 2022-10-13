@@ -28,6 +28,16 @@ namespace Bytestream
          */
         void copyFrom(const ConstByteArrayView &other);
 
+        /**
+         * @brief Copy the data held in the source memory location to our view
+         * @param src The source memory location
+         * @param nBytes The number of bytes in the source memory location
+         *
+         * Will copy as much data from other as will fit in this. If n is less
+         * than size(), fill bytes from the right.
+         */
+        void copyFrom(const void *src, std::size_t nBytes);
+
         std::byte *data()
         {
             // NB: The const_cast here is entirely safe: we know that in truth

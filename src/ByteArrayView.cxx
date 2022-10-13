@@ -9,13 +9,18 @@ namespace Bytestream
 
     void ByteArrayView::copyFrom(const ConstByteArrayView &other)
     {
-        if (other.size() >= size())
+        copyFrom(other.data(), other.size());
+    }
+
+    void ByteArrayView::copyFrom(const void *src, std::size_t nBytes)
+    {
+        if (nBytes >= size())
         {
-            std::memcpy(data(), other.data() + other.size() - size(), size());
+            std::memcpy(data(), reinterpret_cast<const std::byte *>(src) + nBytes - size(), size());
         }
         else
         {
-            std::memcpy(data() + size() - other.size(), other.data(), size());
+            std::memcpy(data() + size() - nBytes, src, nBytes);
         }
     }
 
