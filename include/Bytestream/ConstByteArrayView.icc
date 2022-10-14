@@ -1,6 +1,9 @@
 #include "Bytestream/ReadUtils.h"
 
-namespace Bytestream {
+
+    template <typename T>
+    ConstByteArrayView ConstByteArrayView::asView(const T &data) { return ConstByteArrayView(&data, sizeof(T)); }
+
     template <typename T>
     std::enable_if_t<is_uint_v<T>, void>
     ConstByteArrayView::readBits(T &value, std::size_t bitPos,

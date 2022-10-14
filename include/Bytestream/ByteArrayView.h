@@ -21,6 +21,12 @@ namespace Bytestream
         ByteArrayView(void *data, std::size_t nBytes);
 
         /**
+         * @brief Return a view over the data represented by the passed object
+         */
+        template <typename T>
+        static ByteArrayView asView(const T &data) { return ByteArrayView(&data, sizeof(T)); }
+
+        /**
          * @brief Copy the data held in other to our view
          *
          * Will copy as much data from other as will fit in this. If other is

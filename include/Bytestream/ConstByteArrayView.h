@@ -39,6 +39,12 @@ namespace Bytestream
          */
         ConstByteArrayView(const void *data, std::size_t nBytes);
 
+        /**
+         * @brief Return a view over the data represented by the passed object
+         */
+        template <typename T>
+        static ConstByteArrayView asView(const T &data);
+
         /// The number of bytes in the view
         std::size_t size() const { return m_nBytes; }
 
