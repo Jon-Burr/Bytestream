@@ -103,6 +103,7 @@ namespace Bytestream
          * @param bitPos The position (in bits) of the data in the array
          * @param nBits The number of bits to copy
          * @param sourceEndianness The endianness of the source stream
+         * @param targetEndianness The endianness of the target memory
          *
          * NB: It only really makes sense to read truncated bytes from a
          * big-endian stream.
@@ -111,7 +112,8 @@ namespace Bytestream
         std::enable_if_t<is_uint_v<T>, void>
         readBits(T &value, std::size_t bitPos,
                  std::size_t nBits = sizeof(T) * CHAR_BIT,
-                 Endian sourceEndianness = Endian::Big) const;
+                 Endian sourceEndianness = Endian::Big,
+                 Endian targetEndianness = Endian::Native) const;
 
         /**
          * @brief Read bits into a value of the specified type
@@ -120,6 +122,7 @@ namespace Bytestream
          * @param bitPos The position (in bits) of the data in the array
          * @param nBits The number of bits to copy
          * @param sourceEndianness The endianness of the source stream
+         * @param targetEndianness The endianness of the target memory
          *
          * NB: It only really makes sense to read truncated bytes from a
          * big-endian stream.
@@ -127,7 +130,8 @@ namespace Bytestream
         template <typename T = uint32_t>
         std::enable_if_t<is_uint_v<T>, T>
         readBits(std::size_t bitPos, std::size_t nBits = sizeof(T) * CHAR_BIT,
-                 Endian sourceEndianness = Endian::Big) const;
+                 Endian sourceEndianness = Endian::Big,
+                 Endian targetEndianness = Endian::Native) const;
 
         /**
          * @brief Read bytes into the target value
@@ -137,11 +141,13 @@ namespace Bytestream
          * @param bytePos The position (in bytes) of the data in the array
          * @param nBytes The number of bytes to copy
          * @param sourceEndianness The endianness of the source stream
+         * @param targetEndianness The endianness of the target memory
          */
         template <typename T>
         std::enable_if_t<is_uint_v<T>, void>
         readBytes(T &value, std::size_t bytePos, std::size_t nBytes = sizeof(T),
-                  Endian sourceEndianness = Endian::Big) const;
+                  Endian sourceEndianness = Endian::Big,
+                  Endian targetEndianness = Endian::Native) const;
 
         /**
          * @brief Read bytes into a value of the specified type
@@ -150,11 +156,13 @@ namespace Bytestream
          * @param bytePos The position (in bytes) of the data in the array
          * @param nBytes The number of bytes to copy
          * @param sourceEndianness The endianness of the source stream
+         * @param targetEndianness The endianness of the target memory
          */
         template <typename T = uint32_t>
         std::enable_if_t<is_uint_v<T>, T>
         readBytes(std::size_t bytePos, std::size_t nBytes = sizeof(T),
-                  Endian sourceEndianness = Endian::Big) const;
+                  Endian sourceEndianness = Endian::Big,
+                  Endian targetEndianness = Endian::Native) const;
 
         /// Read a bitset from the specified position
         template <std::size_t N>
@@ -162,10 +170,12 @@ namespace Bytestream
 
         void
         readBitsInto(void *target, std::size_t bitPos, std::size_t nBits,
-                     Endian sourceEndianness = Endian::Big) const;
+                     Endian sourceEndianness = Endian::Big,
+                     Endian targetEndianness = Endian::Native) const;
         void
         readBytesInto(void *target, std::size_t bytePos, std::size_t nBytes,
-                      Endian sourceEndianness = Endian::Big) const;
+                      Endian sourceEndianness = Endian::Big,
+                      Endian targetEndianness = Endian::Native) const;
 
     private:
         const std::byte *const m_data;

@@ -1,5 +1,7 @@
 #include "Bytestream/ReadUtils.h"
 
+namespace Bytestream
+{
 
     template <typename T>
     ConstByteArrayView ConstByteArrayView::asView(const T &data) { return ConstByteArrayView(&data, sizeof(T)); }
@@ -8,60 +10,52 @@
     std::enable_if_t<is_uint_v<T>, void>
     ConstByteArrayView::readBits(T &value, std::size_t bitPos,
                                  std::size_t nBits,
-                                 Endian sourceEndianness) const {
+                                 Endian sourceEndianness,
+                                 Endian targetEndianness) const
+    {
         std::size_t nBytes = nBytesToHold(nBits);
         std::byte *start = ptrToStartByte(value, nBytes);
-        readBitsInto(start, bitPos, nBits, sourceEndianness);
+        readBitsInto(start, bitPos, nBits, sourceEndianness, targetEndianness);
     }
 
     template <typename T>
     std::enable_if_t<is_uint_v<T>, T>
     ConstByteArrayView::readBits(std::size_t bitPos, std::size_t nBits,
-                                 Endian sourceEndianness) const {
+                                 Endian sourceEndianness,
+                                 Endian targetEndianness) const
+    {
         T value;
-        readBits(value, bitPos, nBits, sourceEndianness);
+        readBits(value, bitPos, nBits, sourceEndianness, targetEndianness);
         return value;
     }
 
-    /**
-     * @brief Read bytes into the target value
-     *
-     * @tparam T The type of the target value
-     * @param value The target value
-     * @param bytePos The position (in bytes) of the data in the array
-     * @param nBytes The number of bytes to copy
-     * @param sourceEndianness The endianness of the source stream
-     */
     template <typename T>
     std::enable_if_t<is_uint_v<T>, void>
     ConstByteArrayView::readBytes(T &value, std::size_t bytePos,
                                   std::size_t nBytes,
-                                  Endian sourceEndianness) const {
+                                  Endian sourceEndianness,
+                                  Endian targetEndianness) const
+    {
         std::byte *start = ptrToStartByte(value, nBytes);
-        readBytesInto(start, bytePos, nBytes, sourceEndianness);
+        readBytesInto(start, bytePos, nBytes, sourceEndianness, targetEndianness);
     }
 
-    /**
-     * @brief Read bytes into a value of the specified type
-     *
-     * @tparam T The type of the target value
-     * @param bytePos The position (in bytes) of the data in the array
-     * @param nBytes The number of bytes to copy
-     * @param sourceEndianness The endianness of the source stream
-     */
     template <typename T>
     std::enable_if_t<is_uint_v<T>, T>
     ConstByteArrayView::readBytes(std::size_t bytePos, std::size_t nBytes,
-                                  Endian sourceEndianness) const {
+                                  Endian sourceEndianness,
+                                  Endian targetEndianness) const
+    {
         T value;
-        readBytes(value, bytePos, nBytes, sourceEndianness);
+        readBytes(value, bytePos, nBytes, sourceEndianness, targetEndianness);
         return value;
     }
 
     template <std::size_t N>
-    std::bitset<N> ConstByteArrayView::readBitset(std::size_t bitPos) {
+    std::bitset<N> ConstByteArrayView::readBitset(std::size_t bitPos)
+    {
         typename BitsInfo<N>::uint_t value;
-        readBits(value, bitPos, N, Endian::Big);
+        readBits(value, bitPos, N, Endian::Big, Endian::Native);
         return value;
     }
 } // namespace Bytestream
