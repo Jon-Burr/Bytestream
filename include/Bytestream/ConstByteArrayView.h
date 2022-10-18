@@ -95,6 +95,17 @@ namespace Bytestream
         /// Get a view of a subset of this array
         ConstByteArrayView view(std::size_t idx, std::size_t nBytes) const;
 
+        bool testBitsAny(std::size_t bitIdx, std::size_t nBits = 1) const;
+        template <typename T>
+        std::enable_if_t<is_uint_v<T>, bool> testBitsAny(
+            std::size_t bitItx, std::size_t nBits, T mask,
+            Endian maskEndianness = Endian::Native) const;
+        bool testBitsAll(std::size_t bitIdx, std::size_t nBits = 1) const;
+        template <typename T>
+        std::enable_if_t<is_uint_v<T>, bool> testBitsAll(
+            std::size_t bitItx, std::size_t nBits, T mask,
+            Endian maskEndianness = Endian::Native) const;
+
         /**
          * @brief Read bits into the target value
          *
