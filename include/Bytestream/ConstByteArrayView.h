@@ -95,6 +95,7 @@ namespace Bytestream
         /// Get a view of a subset of this array
         ConstByteArrayView view(std::size_t idx, std::size_t nBytes) const;
 
+        bool testBit(std::size_t bitIdx) const { return testBitsAny(0, 1); }
         bool testBitsAny(std::size_t bitIdx, std::size_t nBits = 1) const;
         template <typename T>
         std::enable_if_t<is_uint_v<T>, bool> testBitsAny(
