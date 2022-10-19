@@ -95,13 +95,29 @@ namespace Bytestream
         /// Get a view of a subset of this array
         ConstByteArrayView view(std::size_t idx, std::size_t nBytes) const;
 
-        bool testBit(std::size_t bitIdx) const { return testBitsAny(0, 1); }
+        /// @brief Test the value of a single bit
+        bool testBit(std::size_t bitIdx) const;
+        /// @brief Return if any of the nBits starting from bitIdx are set
         bool testBitsAny(std::size_t bitIdx, std::size_t nBits = 1) const;
+        /**
+         * @brief Test the values of bits
+         * @param bitIdx The starting bit
+         * @param nBits The number of bits to set
+         * @param mask Only consider bits passing the mask
+         */
         template <typename T>
         std::enable_if_t<is_uint_v<T>, bool> testBitsAny(
             std::size_t bitItx, std::size_t nBits, T mask,
             Endian maskEndianness = Endian::Native) const;
+
+        /// @brief Return if all of the nBits starting from bitIdx are set
         bool testBitsAll(std::size_t bitIdx, std::size_t nBits = 1) const;
+        /**
+         * @brief Test the values of bits
+         * @param bitIdx The starting bit
+         * @param nBits The number of bits to set
+         * @param mask Only consider bits passing the mask
+         */
         template <typename T>
         std::enable_if_t<is_uint_v<T>, bool> testBitsAll(
             std::size_t bitItx, std::size_t nBits, T mask,

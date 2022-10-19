@@ -37,28 +37,33 @@ namespace Bytestream
         return ConstByteArrayView(m_data + size() - idx - nBytes, nBytes);
     }
 
+    bool ConstByteArrayView::testBit(std::size_t bitIdx) const
+    {
+        return testBitsAny(bitIdx, 1, uint8_t(1));
+    }
+
     bool ConstByteArrayView::testBitsAny(std::size_t bitIdx, std::size_t nBits) const
     {
         if (nBits <= 8)
         {
-            uint8_t mask = ~uint8_t(0) >> (8 - nBits);
+            uint8_t mask = uint8_t(~0) >> (8 - nBits);
             return testBitsAny(bitIdx, nBits, mask);
         }
         else if (nBits <= 16)
         {
-            uint16_t mask = ~uint16_t(0) >> (16 - nBits);
+            uint16_t mask = uint16_t(~0) >> (16 - nBits);
             return testBitsAny(bitIdx, nBits, mask);
         }
         else if (nBits <= 32)
         {
-            uint32_t mask = ~uint32_t(0) >> (32 - nBits);
+            uint32_t mask = uint32_t(~0) >> (32 - nBits);
             return testBitsAny(bitIdx, nBits, mask);
         }
         else
         {
             if (nBits > 64)
                 throw std::out_of_range(std::to_string(nBits));
-            uint32_t mask = ~uint64_t(0) >> (64 - nBits);
+            uint64_t mask = uint64_t(~0) >> (64 - nBits);
             return testBitsAny(bitIdx, nBits, mask);
         }
     }
@@ -67,24 +72,24 @@ namespace Bytestream
     {
         if (nBits <= 8)
         {
-            uint8_t mask = ~uint8_t(0) >> (8 - nBits);
+            uint8_t mask = uint8_t(~0) >> (8 - nBits);
             return testBitsAll(bitIdx, nBits, mask);
         }
         else if (nBits <= 16)
         {
-            uint16_t mask = ~uint16_t(0) >> (16 - nBits);
+            uint16_t mask = uint16_t(~0) >> (16 - nBits);
             return testBitsAll(bitIdx, nBits, mask);
         }
         else if (nBits <= 32)
         {
-            uint32_t mask = ~uint32_t(0) >> (32 - nBits);
+            uint32_t mask = uint32_t(~0) >> (32 - nBits);
             return testBitsAll(bitIdx, nBits, mask);
         }
         else
         {
             if (nBits > 64)
                 throw std::out_of_range(std::to_string(nBits));
-            uint32_t mask = ~uint64_t(0) >> (64 - nBits);
+            uint64_t mask = uint64_t(~0) >> (64 - nBits);
             return testBitsAll(bitIdx, nBits, mask);
         }
     }
