@@ -1,79 +1,63 @@
 #include "Bytestream/ReadUtils.h"
 
-namespace Bytestream
-{
+namespace Bytestream {
+
+    template <typename T> ConstByteArrayView ConstByteArrayView::asView(const T &data) {
+        return ConstByteArrayView(&data, sizeof(T));
+    }
 
     template <typename T>
-    ConstByteArrayView ConstByteArrayView::asView(const T &data) { return ConstByteArrayView(&data, sizeof(T)); }
-
-    template <typename T>
-    std::enable_if_t<is_uint_v<T>, bool>
-    ConstByteArrayView::testBitsAny(
-        std::size_t bitIdx, std::size_t nBits, T mask, Endian maskEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, bool> ConstByteArrayView::testBitsAny(
+            std::size_t bitIdx, std::size_t nBits, T mask, Endian maskEndianness) const {
         T value;
         readBits(value, bitIdx, nBits, Endian::Big, maskEndianness);
         return value & mask;
     }
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, bool>
-    ConstByteArrayView::testBitsAll(
-        std::size_t bitIdx, std::size_t nBits, T mask, Endian maskEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, bool> ConstByteArrayView::testBitsAll(
+            std::size_t bitIdx, std::size_t nBits, T mask, Endian maskEndianness) const {
         T value;
         readBits(value, bitIdx, nBits, Endian::Big, maskEndianness);
         return (value & mask) == mask;
     }
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, void>
-    ConstByteArrayView::readBits(T &value, std::size_t bitPos,
-                                 std::size_t nBits,
-                                 Endian sourceEndianness,
-                                 Endian targetEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, void> ConstByteArrayView::readBits(
+            T &value, std::size_t bitPos, std::size_t nBits, Endian sourceEndianness,
+            Endian targetEndianness) const {
         std::size_t nBytes = nBytesToHold(nBits);
         std::byte *start = ptrToStartByte(value, nBytes);
         readBitsInto(start, bitPos, nBits, sourceEndianness, targetEndianness);
     }
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, T>
-    ConstByteArrayView::readBits(std::size_t bitPos, std::size_t nBits,
-                                 Endian sourceEndianness,
-                                 Endian targetEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, T> ConstByteArrayView::readBits(
+            std::size_t bitPos, std::size_t nBits, Endian sourceEndianness,
+            Endian targetEndianness) const {
         T value;
         readBits(value, bitPos, nBits, sourceEndianness, targetEndianness);
         return value;
     }
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, void>
-    ConstByteArrayView::readBytes(T &value, std::size_t bytePos,
-                                  std::size_t nBytes,
-                                  Endian sourceEndianness,
-                                  Endian targetEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, void> ConstByteArrayView::readBytes(
+            T &value, std::size_t bytePos, std::size_t nBytes, Endian sourceEndianness,
+            Endian targetEndianness) const {
         std::byte *start = ptrToStartByte(value, nBytes);
         readBytesInto(start, bytePos, nBytes, sourceEndianness, targetEndianness);
     }
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, T>
-    ConstByteArrayView::readBytes(std::size_t bytePos, std::size_t nBytes,
-                                  Endian sourceEndianness,
-                                  Endian targetEndianness) const
-    {
+    std::enable_if_t<is_uint_v<T>, T> ConstByteArrayView::readBytes(
+            std::size_t bytePos, std::size_t nBytes, Endian sourceEndianness,
+            Endian targetEndianness) const {
         T value;
         readBytes(value, bytePos, nBytes, sourceEndianness, targetEndianness);
         return value;
     }
 
-    template <std::size_t N>
-    std::bitset<N> ConstByteArrayView::readBitset(std::size_t bitPos)
-    {
+    template <std::size_t N> std::bitset<N> ConstByteArrayView::readBitset(std::size_t bitPos) {
         typename BitsInfo<N>::uint_t value;
         readBits(value, bitPos, N, Endian::Big, Endian::Native);
         return value;

@@ -2,20 +2,17 @@
 #include "Bytestream/StringUtils.h"
 
 namespace Bytestream {
-    Reader::Reader(void *target, std::size_t nBits,
-                   Endian sourceEndianness)
+    Reader::Reader(void *target, std::size_t nBits, Endian sourceEndianness)
             : m_target(reinterpret_cast<std::byte *>(target)), m_nBits(nBits),
               m_endianness(sourceEndianness) {}
 
     ReadBytestream &operator>>(ReadBytestream &stream, Reader reader) {
-        stream.readBitsInto(reader.m_target, reader.m_nBits,
-                            reader.m_endianness);
+        stream.readBitsInto(reader.m_target, reader.m_nBits, reader.m_endianness);
         return stream;
     }
 
     ExpectsHandle::ExpectsHandle(const void *expected, std::size_t nBits)
-            : Reader(new std::byte[nBytesToHold(nBits)], nBits,
-                     Endian::Native),
+            : Reader(new std::byte[nBytesToHold(nBits)], nBits, Endian::Native),
               m_expected(expected) {}
 
     ExpectsHandle::ExpectsHandle(const ConstByteArrayView &view)
@@ -30,9 +27,7 @@ namespace Bytestream {
     void ExpectsHandle::throwIfBad() const {
         if (!good())
             throw std::invalid_argument(
-                    "Expected '" +
-                    Bytestream::toHex(expected(), nBytesToHold(nBits())) +
-                    "' '" +
+                    "Expected '" + Bytestream::toHex(expected(), nBytesToHold(nBits())) + "' '" +
                     Bytestream::toHex(received(), nBytesToHold(nBits())) + "'");
     }
 

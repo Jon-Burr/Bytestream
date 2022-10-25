@@ -15,10 +15,8 @@
 #include "Bytestream/ByteArrayView.h"
 #include "Bytestream/ConstByteArrayView.h"
 
-namespace Bytestream
-{
-    class ByteArray : public ByteArrayView
-    {
+namespace Bytestream {
+    class ByteArray : public ByteArrayView {
     public:
         /// Create an invalid byte array wrapping a nullptr
         ByteArray();

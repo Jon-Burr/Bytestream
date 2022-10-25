@@ -2,18 +2,13 @@
 #include "Bytestream/ByteArray.h"
 
 namespace Bytestream {
-    ReadBytestream::ReadBytestream(const ConstByteArrayView &view)
-            : m_view(view) {}
+    ReadBytestream::ReadBytestream(const ConstByteArrayView &view) : m_view(view) {}
 
     std::size_t ReadBytestream::position() const { return m_pos; }
 
-    std::size_t ReadBytestream::size() const {
-        return m_view.size() * CHAR_BIT;
-    }
+    std::size_t ReadBytestream::size() const { return m_view.size() * CHAR_BIT; }
 
-    std::size_t ReadBytestream::remaining() const {
-        return size() - position();
-    }
+    std::size_t ReadBytestream::remaining() const { return size() - position(); }
 
     bool ReadBytestream::exhausted() const { return remaining() == 0; }
 
@@ -55,12 +50,10 @@ namespace Bytestream {
         m_pos = 0;
     }
 
-    bool ReadBytestream::onByteBoundary() const {
-        return m_pos % CHAR_BIT == 0;
-    }
+    bool ReadBytestream::onByteBoundary() const { return m_pos % CHAR_BIT == 0; }
 
-    void ReadBytestream::readBitsInto(std::byte *target, std::size_t nBits,
-                                      Endian sourceEndianness) {
+    void ReadBytestream::readBitsInto(
+            std::byte *target, std::size_t nBits, Endian sourceEndianness) {
         if (!good())
             return;
         if (nBits > remaining()) {
@@ -71,8 +64,7 @@ namespace Bytestream {
         m_pos += nBits;
     }
 
-    ConstByteArrayView
-    ReadBytestream::readUnformattedBytes(std::size_t nBytes) {
+    ConstByteArrayView ReadBytestream::readUnformattedBytes(std::size_t nBytes) {
         if (!good())
             return ConstByteArrayView(nullptr, 0);
         std::size_t nBits = nBytes * CHAR_BIT;

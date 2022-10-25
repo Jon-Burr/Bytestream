@@ -2,16 +2,13 @@
 
 namespace Bytestream {
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, void>
-    ReadBytestream::readBits(T &target, std::size_t nBits,
-                             Endian sourceEndianness) {
-        readBitsInto(ptrToStartByte(target, nBytesToHold(nBits)), nBits,
-                     sourceEndianness);
+    std::enable_if_t<is_uint_v<T>, void> ReadBytestream::readBits(
+            T &target, std::size_t nBits, Endian sourceEndianness) {
+        readBitsInto(ptrToStartByte(target, nBytesToHold(nBits)), nBits, sourceEndianness);
     }
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, ReadBytestream &>
-    operator>>(ReadBytestream &stream, T &value) {
+    std::enable_if_t<is_uint_v<T>, ReadBytestream &> operator>>(ReadBytestream &stream, T &value) {
         stream.readBits(value, sizeof(T) * CHAR_BIT, Endian::Big);
         return stream;
     }

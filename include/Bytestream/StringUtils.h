@@ -16,21 +16,16 @@
 #include <string>
 #include <vector>
 
-namespace Bytestream
-{
+namespace Bytestream {
     std::vector<std::byte> fromHex(const std::string &str);
     std::vector<std::byte> fromBinary(const std::string &str);
 
     std::string toHex(const void *data, std::size_t n);
     std::string toBinary(const void *data, std::size_t n);
 
-    template <typename T> std::string toHex(const T &value)
-    {
-        return toHex(&value, sizeof(T));
-    }
+    template <typename T> std::string toHex(const T &value) { return toHex(&value, sizeof(T)); }
 
-    template <typename T> std::string toBinary(const T &value)
-    {
+    template <typename T> std::string toBinary(const T &value) {
         return toBinary(&value, sizeof(T));
     }
 } // namespace Bytestream

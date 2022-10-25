@@ -11,10 +11,8 @@
 #include "Bytestream/ConstByteArrayView.h"
 #include <iterator>
 
-namespace Bytestream
-{
-    class ByteArrayView : public ConstByteArrayView
-    {
+namespace Bytestream {
+    class ByteArrayView : public ConstByteArrayView {
     public:
         using iterator = std::reverse_iterator<std::byte *>;
         using reverse_iterator = std::byte *;
@@ -23,8 +21,9 @@ namespace Bytestream
         /**
          * @brief Return a view over the data represented by the passed object
          */
-        template <typename T>
-        static ByteArrayView asView(const T &data) { return ByteArrayView(&data, sizeof(T)); }
+        template <typename T> static ByteArrayView asView(const T &data) {
+            return ByteArrayView(&data, sizeof(T));
+        }
 
         /**
          * @brief Copy the data held in other to our view
@@ -44,8 +43,7 @@ namespace Bytestream
          */
         void copyFrom(const void *src, std::size_t nBytes);
 
-        std::byte *data()
-        {
+        std::byte *data() {
             // NB: The const_cast here is entirely safe: we know that in truth
             // we were handed a non-const pointer. It's only to share it with
             // the const base class that we ever had to make it const.
@@ -63,10 +61,7 @@ namespace Bytestream
         reverse_iterator rend() { return data() + size(); }
         using ConstByteArrayView::rend;
 
-        std::byte &operator[](std::size_t idx)
-        {
-            return *(data() + size() - idx - 1);
-        }
+        std::byte &operator[](std::size_t idx) { return *(data() + size() - idx - 1); }
         using ConstByteArrayView::operator[];
 
         std::byte &at(std::size_t idx);

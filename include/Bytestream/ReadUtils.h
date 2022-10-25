@@ -11,12 +11,11 @@
 #ifndef BYTESTREAM_READUTILS_H
 #define BYTESTREAM_READUTILS_H
 
-#include "Bytestream/Utils.h"
 #include "Bytestream/Endian.h"
+#include "Bytestream/Utils.h"
 #include <cstddef>
 
-namespace Bytestream
-{
+namespace Bytestream {
     /**
      * @brief Create a bitmask that keeps the n leftmost bits
      *
@@ -45,8 +44,7 @@ namespace Bytestream
      * the right of the target array. The two arrays must not overlap. Any
      * remaining bits to the left of the target array will be zeroed.
      */
-    void copyBits(void *dest, const void *src, std::size_t pos,
-                  std::size_t n) noexcept;
+    void copyBits(void *dest, const void *src, std::size_t pos, std::size_t n) noexcept;
 
     /**
      * @brief Get a pointer to the leftmost byte that will be used in the value
@@ -58,8 +56,8 @@ namespace Bytestream
      * @return std::enable_if_t<is_uint_v<T>, std::byte *>
      */
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, std::byte *>
-    ptrToStartByte(T &value, std::size_t nBytes, bool zeroUnused = true);
+    std::enable_if_t<is_uint_v<T>, std::byte *> ptrToStartByte(
+            T &value, std::size_t nBytes, bool zeroUnused = true);
 
 } // namespace Bytestream
 

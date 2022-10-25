@@ -31,16 +31,13 @@ BOOST_AUTO_TEST_CASE(copyAndShift) {
     target.assign(2, std::byte{0});
     source = Bytestream::fromBinary("11101101 11011010 00011111 01101100");
     Bytestream::copyBits(target.data(), source.data(), 2, 14);
-    BOOST_CHECK(Bytestream::toBinary(target.data(), target.size()) ==
-                "00101101 11011010");
+    BOOST_CHECK(Bytestream::toBinary(target.data(), target.size()) == "00101101 11011010");
 
     // Make sure the other bytes aren't touched
     target.assign(3, std::byte{0xFF});
     Bytestream::copyBits(target.data() + 1, source.data(), CHAR_BIT + 3, 11);
-    BOOST_CHECK(Bytestream::toBinary(target.data(), target.size()) ==
-                "11111111 00000110 10000111");
+    BOOST_CHECK(Bytestream::toBinary(target.data(), target.size()) == "11111111 00000110 10000111");
     target.assign(3, std::byte{0xFF});
     Bytestream::copyBits(target.data(), source.data(), 1, 2 * CHAR_BIT);
-    BOOST_CHECK(Bytestream::toBinary(target.data(), target.size()) ==
-                "11011011 10110100 11111111");
+    BOOST_CHECK(Bytestream::toBinary(target.data(), target.size()) == "11011011 10110100 11111111");
 }
