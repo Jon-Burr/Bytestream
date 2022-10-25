@@ -34,7 +34,6 @@ namespace Bytestream {
          *
          * @param data The start of the data array in memory
          * @param nBytes The number of bytes in the data array
-         * @param endianness The endianness of the data array
          */
         ConstByteArrayView(const void *data, std::size_t nBytes);
 
@@ -198,7 +197,6 @@ namespace Bytestream {
     private:
         const std::byte *const m_data;
         std::size_t m_nBytes;
-        Endian m_endianness;
     }; //> end class ConstByteArrayView
 
     bool operator==(const ConstByteArrayView &lhs, const ConstByteArrayView &rhs);
