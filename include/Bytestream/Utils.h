@@ -29,8 +29,7 @@ namespace Bytestream {
      *
      * @tparam T The type to check
      */
-    template <typename T>
-    constexpr bool is_uint_v = std::is_integral_v<T> &&std::is_unsigned_v<T>;
+    template <typename T> constexpr bool is_uint_v = std::is_integral_v<T> &&std::is_unsigned_v<T>;
 
     /**
      * @brief Helper struct to find the smallest native unsigned integer type
@@ -43,8 +42,7 @@ namespace Bytestream {
         using uint_t = std::conditional_t<
                 N <= 1, uint8_t,
                 std::conditional_t<
-                        N <= 2, uint16_t,
-                        std::conditional_t<N <= 4, uint32_t, uint64_t>>>;
+                        N <= 2, uint16_t, std::conditional_t<N <= 4, uint32_t, uint64_t>>>;
         inline static constexpr std::size_t nBytes = sizeof(uint_t);
     };
 

@@ -19,8 +19,7 @@
 
 #include <type_traits>
 
-namespace Bytestream
-{
+namespace Bytestream {
 
     /**
      * @brief Holds information on how to interpret a piece of memory
@@ -28,8 +27,7 @@ namespace Bytestream
      * The base reader class does not own the memory that it points to so it
      * must not outlive the object which does
      */
-    class Reader
-    {
+    class Reader {
         friend ReadBytestream &operator>>(ReadBytestream &, Reader);
 
     public:
@@ -40,8 +38,7 @@ namespace Bytestream
          * @param nBits The number of bits to read from the stream
          * @param sourceEndianness The endianness of the data in the stream
          */
-        Reader(void *target, std::size_t nBits,
-               Endian sourceEndianness = Endian::Big);
+        Reader(void *target, std::size_t nBits, Endian sourceEndianness = Endian::Big);
 
     protected:
         std::byte *m_target;
@@ -58,9 +55,8 @@ namespace Bytestream
      * @param sourceEndianness The endianness of the data in the source stream
      */
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, Reader>
-    makeReader(T &value, std::size_t nBits,
-               Endian sourceEndianness = Endian::Big);
+    std::enable_if_t<is_uint_v<T>, Reader> makeReader(
+            T &value, std::size_t nBits, Endian sourceEndianness = Endian::Big);
 
     /**
      * @brief Create a reader that reads into an existing value
@@ -73,8 +69,7 @@ namespace Bytestream
      * @param sourceEndianness The endianness of the data in the source stream
      */
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, Reader>
-    makeReader(T &value, Endian sourceEndianness);
+    std::enable_if_t<is_uint_v<T>, Reader> makeReader(T &value, Endian sourceEndianness);
 
     /// Read information from the stream into the location specified by the
     /// reader
@@ -83,8 +78,7 @@ namespace Bytestream
     /**
      * @brief Helper struct to skip over a certain number of bits in a stream
      */
-    struct SkipBits
-    {
+    struct SkipBits {
         SkipBits(std::size_t nBits);
         std::size_t nBits;
     };
@@ -98,9 +92,7 @@ namespace Bytestream
      *
      * @tparam T The uint type to be read into
      */
-    template <typename T>
-    class UIntHandle : public Reader
-    {
+    template <typename T> class UIntHandle : public Reader {
         static_assert(is_uint_v<T>, "Only valid for unsigned integers");
 
     public:
@@ -110,8 +102,7 @@ namespace Bytestream
          * @param nBits The number of bits to read from the stream
          * @param sourceEndianness The endianness of the source data
          */
-        UIntHandle(std::size_t nBits = sizeof(T) * CHAR_BIT,
-                   Endian sourceEndianness = Endian::Big);
+        UIntHandle(std::size_t nBits = sizeof(T) * CHAR_BIT, Endian sourceEndianness = Endian::Big);
         operator T() const { return m_value; }
         T value() const { return m_value; }
 
@@ -125,9 +116,7 @@ namespace Bytestream
      * @tparam F The floating point type
      * @tparam T The underlying unsigned integer type
      */
-    template <typename F = float, typename T = uint32_t>
-    class FloatHandle : public Reader
-    {
+    template <typename F = float, typename T = uint32_t> class FloatHandle : public Reader {
     public:
         /**
          * @brief Construct a new Float Handle object
@@ -138,8 +127,9 @@ namespace Bytestream
          * @param sourceEndianness The endianness of the data in the source
          * stream
          */
-        FloatHandle(F conversion, std::size_t nBits = sizeof(T) * CHAR_BIT,
-                    Endian sourceEndianness = Endian::Big);
+        FloatHandle(
+                F conversion, std::size_t nBits = sizeof(T) * CHAR_BIT,
+                Endian sourceEndianness = Endian::Big);
         operator F() const { return value(); }
         F value() const { return m_value * m_conversion; }
 
@@ -156,8 +146,7 @@ namespace Bytestream
      * The handle has an array of bytes which it expects to see and it compares
      * the value that it actually receives to this.
      */
-    class ExpectsHandle : public Reader
-    {
+    class ExpectsHandle : public Reader {
     public:
         /**
          * @brief Construct a new Expects Handle object

@@ -24,8 +24,7 @@ BOOST_AUTO_TEST_CASE(readStream) {
     BOOST_TEST(bitset1 == 0b01110);
     BOOST_TEST(bitset2 == 0b011);
 
-    Bytestream::ByteArray data2 =
-            Bytestream::ByteArray::fromHex("aa f2 c3 d8 b2 97 42");
+    Bytestream::ByteArray data2 = Bytestream::ByteArray::fromHex("aa f2 c3 d8 b2 97 42");
     uint32_t value32{0};
     uint16_t value16{0};
     Bytestream::ReadBytestream stream2 = data2;

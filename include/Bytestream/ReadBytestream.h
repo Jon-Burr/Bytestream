@@ -18,10 +18,8 @@
 #include <bitset>
 #include <ios>
 #include <type_traits>
-namespace Bytestream
-{
-    class ReadBytestream
-    {
+namespace Bytestream {
+    class ReadBytestream {
     public:
         ReadBytestream(const ConstByteArrayView &view);
         std::size_t position() const;
@@ -47,10 +45,7 @@ namespace Bytestream
         /// Set the state (ORed to the existing state)
         void setstate(std::ios_base::iostate state) { m_state |= state; }
         /// Clear the state to the provided value
-        void clear(std::ios_base::iostate state = std::ios_base::goodbit)
-        {
-            m_state = state;
-        }
+        void clear(std::ios_base::iostate state = std::ios_base::goodbit) { m_state = state; }
         /// Set the EOF bit
         void seteof() { setstate(std::ios_base::eofbit); }
         /// Set the fail bit
@@ -67,8 +62,7 @@ namespace Bytestream
          * @param sourceEndianness The endianness of the data in the source
          * stream
          */
-        void readBitsInto(std::byte *target, std::size_t nBits,
-                          Endian sourceEndianness);
+        void readBitsInto(std::byte *target, std::size_t nBits, Endian sourceEndianness);
         /**
          * @brief Read out a number of unformatted bytes into a view
          *
@@ -86,9 +80,9 @@ namespace Bytestream
          * @param sourceEndianness The endianness of the data in the stream
          */
         template <typename T>
-        std::enable_if_t<is_uint_v<T>, void>
-        readBits(T &target, std::size_t nBits = sizeof(T) * CHAR_BIT,
-                 Endian sourceEndianness = Endian::Big);
+        std::enable_if_t<is_uint_v<T>, void> readBits(
+                T &target, std::size_t nBits = sizeof(T) * CHAR_BIT,
+                Endian sourceEndianness = Endian::Big);
 
     private:
         ConstByteArrayView m_view;
@@ -97,8 +91,7 @@ namespace Bytestream
     };
 
     template <typename T>
-    std::enable_if_t<is_uint_v<T>, ReadBytestream &>
-    operator>>(ReadBytestream &stream, T &value);
+    std::enable_if_t<is_uint_v<T>, ReadBytestream &> operator>>(ReadBytestream &stream, T &value);
 
     template <std::size_t N>
     ReadBytestream &operator>>(ReadBytestream &stream, std::bitset<N> &value);

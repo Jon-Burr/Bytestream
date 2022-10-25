@@ -7,11 +7,9 @@
 #include <vector>
 
 // Test basic access to bytes in a view
-BOOST_AUTO_TEST_CASE(basicAccess)
-{
-    std::vector<std::byte> data{std::byte{0x02}, std::byte{0x43},
-                                std::byte{0xae}, std::byte{0xc7},
-                                std::byte{0xbd}};
+BOOST_AUTO_TEST_CASE(basicAccess) {
+    std::vector<std::byte> data{
+            std::byte{0x02}, std::byte{0x43}, std::byte{0xae}, std::byte{0xc7}, std::byte{0xbd}};
     Bytestream::ConstByteArrayView view(data.data(), data.size());
     BOOST_CHECK(view.size() == 5);
     BOOST_CHECK(view.at(3) == std::byte{0x43});
@@ -25,16 +23,13 @@ BOOST_AUTO_TEST_CASE(basicAccess)
     auto vecRItr = data.begin();
     for (; viewRItr != view.rend(); ++viewRItr, ++vecRItr)
         BOOST_CHECK(*viewRItr == *vecRItr);
-    BOOST_CHECK(view.view(1, 2) ==
-                Bytestream::ConstByteArrayView(data.data() + 2, 2));
+    BOOST_CHECK(view.view(1, 2) == Bytestream::ConstByteArrayView(data.data() + 2, 2));
 }
 
 // Test reading bits from the array into other memory
-BOOST_AUTO_TEST_CASE(interpretBits)
-{
-    std::vector<std::byte> data{std::byte{0x02}, std::byte{0x43},
-                                std::byte{0xae}, std::byte{0xc7},
-                                std::byte{0xbd}};
+BOOST_AUTO_TEST_CASE(interpretBits) {
+    std::vector<std::byte> data{
+            std::byte{0x02}, std::byte{0x43}, std::byte{0xae}, std::byte{0xc7}, std::byte{0xbd}};
     Bytestream::ConstByteArrayView view(data.data(), data.size());
     uint8_t value8;
     view.readBytes(value8, 2, 1);
