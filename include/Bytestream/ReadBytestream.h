@@ -13,14 +13,15 @@
 #define BYTESTREAM_READBYTESTREAM_H
 
 #include "Bytestream/ConstByteArrayView.h"
+#include "Bytestream/Endian.h"
 #include "Bytestream/Utils.h"
-
-#include <bit>
 #include <bitset>
 #include <ios>
 #include <type_traits>
-namespace Bytestream {
-    class ReadBytestream {
+namespace Bytestream
+{
+    class ReadBytestream
+    {
     public:
         ReadBytestream(const ConstByteArrayView &view);
         std::size_t position() const;
@@ -46,7 +47,8 @@ namespace Bytestream {
         /// Set the state (ORed to the existing state)
         void setstate(std::ios_base::iostate state) { m_state |= state; }
         /// Clear the state to the provided value
-        void clear(std::ios_base::iostate state = std::ios_base::goodbit) {
+        void clear(std::ios_base::iostate state = std::ios_base::goodbit)
+        {
             m_state = state;
         }
         /// Set the EOF bit
@@ -66,7 +68,7 @@ namespace Bytestream {
          * stream
          */
         void readBitsInto(std::byte *target, std::size_t nBits,
-                          std::endian sourceEndianness);
+                          Endian sourceEndianness);
         /**
          * @brief Read out a number of unformatted bytes into a view
          *
@@ -86,7 +88,7 @@ namespace Bytestream {
         template <typename T>
         std::enable_if_t<is_uint_v<T>, void>
         readBits(T &target, std::size_t nBits = sizeof(T) * CHAR_BIT,
-                 std::endian sourceEndianness = std::endian::big);
+                 Endian sourceEndianness = Endian::Big);
 
     private:
         ConstByteArrayView m_view;

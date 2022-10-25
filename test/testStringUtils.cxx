@@ -1,8 +1,8 @@
 //#define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE BytestreamStringUtils
+#include "Bytestream/Endian.h"
 #include "Bytestream/StringUtils.h"
 #include "Bytestream/Utils.h"
-//#include <boost/test/unit_test.hpp>
 #include <boost/test/included/unit_test.hpp>
 
 #include <bit>
@@ -12,7 +12,8 @@
 #include <system_error>
 #include <vector>
 
-BOOST_AUTO_TEST_CASE(hex) {
+BOOST_AUTO_TEST_CASE(hex)
+{
     // Make sure we treat an empty string correctly
     BOOST_CHECK(Bytestream::fromHex("").size() == 0);
     BOOST_CHECK(Bytestream::fromHex("  \t\n ").size() == 0);
@@ -41,12 +42,13 @@ BOOST_AUTO_TEST_CASE(hex) {
     BOOST_CHECK(Bytestream::toHex(testVal.data(), 0) == "");
     // Check conversion from a value
     uint32_t val = 0x3192d2fau;
-    if (std::endian::native != std::endian::big)
+    if (Bytestream::Endian::Native != Bytestream::Endian::Big)
         val = Bytestream::swapEndianness(val);
     BOOST_CHECK(Bytestream::toHex(val) == "31 92 d2 fa");
 }
 
-BOOST_AUTO_TEST_CASE(binary) {
+BOOST_AUTO_TEST_CASE(binary)
+{
     // Make sure we treat an empty string correctly
     BOOST_CHECK(Bytestream::fromBinary("").size() == 0);
     BOOST_CHECK(Bytestream::fromBinary(" \t\n  ").size() == 0);

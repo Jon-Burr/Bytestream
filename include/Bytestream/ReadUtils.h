@@ -12,10 +12,11 @@
 #define BYTESTREAM_READUTILS_H
 
 #include "Bytestream/Utils.h"
-#include <bit>
+#include "Bytestream/Endian.h"
 #include <cstddef>
 
-namespace Bytestream {
+namespace Bytestream
+{
     /**
      * @brief Create a bitmask that keeps the n leftmost bits
      *

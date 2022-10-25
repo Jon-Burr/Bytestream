@@ -20,6 +20,8 @@ namespace Bytestream
     class ByteArray : public ByteArrayView
     {
     public:
+        /// Create an invalid byte array wrapping a nullptr
+        ByteArray();
         /// Create a byte array which holds n uninitialized bytes
         ByteArray(std::size_t n);
         /// Create a byte array holding n copies of value

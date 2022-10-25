@@ -20,6 +20,30 @@ namespace Bytestream
         using reverse_iterator = std::byte *;
         ByteArrayView(void *data, std::size_t nBytes);
 
+        /**
+         * @brief Return a view over the data represented by the passed object
+         */
+        template <typename T>
+        static ByteArrayView asView(const T &data) { return ByteArrayView(&data, sizeof(T)); }
+
+        /**
+         * @brief Copy the data held in other to our view
+         *
+         * Will copy as much data from other as will fit in this. If other is
+         * shorter than this, fill bytes from the right.
+         */
+        void copyFrom(const ConstByteArrayView &other);
+
+        /**
+         * @brief Copy the data held in the source memory location to our view
+         * @param src The source memory location
+         * @param nBytes The number of bytes in the source memory location
+         *
+         * Will copy as much data from other as will fit in this. If n is less
+         * than size(), fill bytes from the right.
+         */
+        void copyFrom(const void *src, std::size_t nBytes);
+
         std::byte *data()
         {
             // NB: The const_cast here is entirely safe: we know that in truth

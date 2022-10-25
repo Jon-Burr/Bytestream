@@ -10,4 +10,4 @@ target_sources(Bytestream PRIVATE
     Utils.cxx
 )
 target_include_directories(Bytestream PUBLIC ../include)
-target_compile_features(Bytestream PUBLIC cxx_std_20)
+target_compile_features(Bytestream PUBLIC cxx_std_17)

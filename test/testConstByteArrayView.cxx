@@ -1,12 +1,14 @@
 #define BOOST_TEST_MODULE BytestreamConstByteArrayView
 #include "Bytestream/ConstByteArrayView.h"
+#include "Bytestream/Endian.h"
 #include "boost/test/included/unit_test.hpp"
 
 #include <cstddef>
 #include <vector>
 
 // Test basic access to bytes in a view
-BOOST_AUTO_TEST_CASE(basicAccess) {
+BOOST_AUTO_TEST_CASE(basicAccess)
+{
     std::vector<std::byte> data{std::byte{0x02}, std::byte{0x43},
                                 std::byte{0xae}, std::byte{0xc7},
                                 std::byte{0xbd}};
@@ -28,7 +30,8 @@ BOOST_AUTO_TEST_CASE(basicAccess) {
 }
 
 // Test reading bits from the array into other memory
-BOOST_AUTO_TEST_CASE(interpretBits) {
+BOOST_AUTO_TEST_CASE(interpretBits)
+{
     std::vector<std::byte> data{std::byte{0x02}, std::byte{0x43},
                                 std::byte{0xae}, std::byte{0xc7},
                                 std::byte{0xbd}};
@@ -48,7 +51,7 @@ BOOST_AUTO_TEST_CASE(interpretBits) {
     uint32_t value32;
     view.readBits(value32, 3);
     BOOST_CHECK(value32 == 0b01001000'01110101'11011000'11110111);
-    view.readBits(value32, 0, 32, std::endian::little);
+    view.readBits(value32, 0, 32, Bytestream::Endian::Little);
     BOOST_CHECK(value32 == 0xbdc7ae43);
 
     std::bitset<7> bits = view.readBitset<7>(10);
