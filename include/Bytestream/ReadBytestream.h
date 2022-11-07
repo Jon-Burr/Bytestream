@@ -96,6 +96,8 @@ namespace Bytestream {
     template <std::size_t N>
     ReadBytestream &operator>>(ReadBytestream &stream, std::bitset<N> &value);
 
+    ReadBytestream &operator>>(ReadBytestream &stream, std::string &value);
+
 } // namespace Bytestream
 
 #include "Bytestream/ReadBytestream.icc"

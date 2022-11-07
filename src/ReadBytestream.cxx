@@ -77,4 +77,17 @@ namespace Bytestream {
         return view;
     }
 
+    ReadBytestream &operator>>(ReadBytestream &stream, std::string &value) {
+        value.clear();
+        // Read until we find an empty byte
+        unsigned char read;
+        while (true) {
+            stream >> read;
+            if (!stream.good() || read == 0x00)
+                return stream;
+            value.push_back(read);
+        }
+        return stream;
+    }
+
 } // namespace Bytestream

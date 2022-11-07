@@ -38,10 +38,21 @@ namespace Bytestream {
          * @param src The source memory location
          * @param nBytes The number of bytes in the source memory location
          *
-         * Will copy as much data from other as will fit in this. If n is less
+         * Will copy as much data from the source as will fit in this. If n is less
          * than size(), fill bytes from the right.
          */
         void copyFrom(const void *src, std::size_t nBytes);
+
+        /**
+         * @brief Copy the data held in the source
+         * @param src The source object
+         *
+         * Will copy as much data from the source as will fit in this. If n is less
+         * than size(), fill bytes from the right.
+         */
+        template <typename T> std::enable_if_t<is_uint_v<T>, void> copyFrom(const T &src) {
+            copyFrom(&src, sizeof(T));
+        }
 
         std::byte *data() {
             // NB: The const_cast here is entirely safe: we know that in truth
