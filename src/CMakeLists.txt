@@ -3,7 +3,6 @@ target_sources(Bytestream PRIVATE
     ByteArray.cxx
     ByteArrayView.cxx
     ConstByteArrayView.cxx
-    PackedBlock.cxx
     ReadBytestream.cxx
     ReadBytestreamHelpers.cxx
     ReadUtils.cxx
