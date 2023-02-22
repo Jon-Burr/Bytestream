@@ -1,5 +1,6 @@
 #include "Bytestream/string.hxx"
 #include <charconv>
+#include <climits>
 #include <cstring>
 #include <system_error>
 

@@ -78,22 +78,6 @@ namespace Bytestream {
      * @param mask Only the bits which are 1 here will be copied
      */
     constexpr inline void copyPartialByte(std::byte &dest, std::byte src, std::byte mask);
-
-    /**
-     * @brief Copy bits between two arrays with an arbitrary offset
-     * @param dest Pointer to the target array (leftmost byte)
-     * @param nDestBytes The number of bytes in the target array
-     * @param destOffset The offset in the target array
-     * @param src Pointer to the source array (leftmost byte)
-     * @param nSrcBytes The number of bytes in the target array
-     * @param srcOffset The offset in the source array
-     * @param nBits The number of bits to copy
-     *
-     * The offsets are counted from the rightmost bit of the arrays. The bits remain contiguous.
-     */
-    void copyBits(
-            void *dest, std::size_t nDestBytes, uint8_t destOffset, const void *src,
-            std::size_t nSrcBytes, uint8_t srcOffset, std::size_t nBits);
 } // namespace Bytestream
 
 #include "Bytestream/utils.ixx"
