@@ -5,6 +5,3 @@ add_subdirectory(src)
 
 enable_testing()
 add_subdirectory(test)
-
-add_executable(playground playground.cxx)
-target_link_libraries(playground PRIVATE Bytestream)
