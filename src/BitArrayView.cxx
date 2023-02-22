@@ -10,7 +10,7 @@ namespace Bytestream {
 
     template <Endian E>
     template <Endian E2>
-    BitArrayView<E> &BitArrayView<E>::operator=(const ConstBitArrayView<E2> &other) {
+    void BitArrayView<E>::setFrom(const ConstBitArrayView<E2> &other) {
         auto itr = this->aligned_byte_begin();
         auto end = this->aligned_byte_end();
         auto otherItr = other.aligned_byte_begin();
@@ -20,7 +20,6 @@ namespace Bytestream {
         // Zero any remaining bytes
         for (; itr != end; ++itr)
             *itr = std::byte(0);
-        return *this;
     }
 
     template <Endian E> BitProxy BitArrayView<E>::operator[](std::size_t idx) {
@@ -80,14 +79,14 @@ namespace Bytestream {
     template class BitArrayView<Endian::Little>;
     template class BitArrayView<Endian::Big>;
 #ifndef NODOXYGEN
-    // Instaniate the setting operator
-    template BitArrayView<Endian::Little> &BitArrayView<Endian::Little>::operator=
-            <Endian::Little>(const ConstBitArrayView<Endian::Little> &);
-    template BitArrayView<Endian::Little> &BitArrayView<Endian::Little>::operator=
-            <Endian::Big>(const ConstBitArrayView<Endian::Big> &);
-    template BitArrayView<Endian::Big> &BitArrayView<Endian::Big>::operator=
-            <Endian::Little>(const ConstBitArrayView<Endian::Little> &);
-    template BitArrayView<Endian::Big> &BitArrayView<Endian::Big>::operator=
-            <Endian::Big>(const ConstBitArrayView<Endian::Big> &);
+    // Instaniate the set from method
+    template void BitArrayView<Endian::Little>::setFrom<Endian::Little>(
+            const ConstBitArrayView<Endian::Little> &);
+    template void BitArrayView<Endian::Little>::setFrom<Endian::Big>(
+            const ConstBitArrayView<Endian::Big> &);
+    template void BitArrayView<Endian::Big>::setFrom<Endian::Little>(
+            const ConstBitArrayView<Endian::Little> &);
+    template void BitArrayView<Endian::Big>::setFrom<Endian::Big>(
+            const ConstBitArrayView<Endian::Big> &);
 #endif
 } // namespace Bytestream

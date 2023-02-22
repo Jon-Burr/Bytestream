@@ -12,7 +12,15 @@ namespace Bytestream {
 #endif
     template <Endian E>
     template <typename T, Endian E2>
-    void BitArrayView<E>::setFrom(const T &value) {
-        *this = ConstBitArrayView<E2>::viewOf(value);
+    std::enable_if_t<!is_bitarray_v<T>, void> BitArrayView<E>::set(const T &value) {
+        setFrom(ConstBitArrayView<E2>::viewOf(value));
+    }
+
+    template <Endian E>
+    template <typename T>
+    std::enable_if_t<!is_bitarray_v<T>, BitArrayView<E> &> BitArrayView<E>::operator=(
+            const T &value) {
+        set(value);
+        return *this;
     }
 } // namespace Bytestream

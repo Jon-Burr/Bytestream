@@ -46,7 +46,24 @@ namespace Bytestream {
         /// shorter than the other then the value is truncated. The endianness of the other array
         /// does not matter for the interpretation of the data, i.e. data from the LSB of the other
         /// will be copied to the LSB of this
-        template <Endian E2> BitArrayView<E> &operator=(const ConstBitArrayView<E2> &other);
+        template <Endian E2> void setFrom(const ConstBitArrayView<E2> &other);
+
+        /// @brief Set contained memory from the provided value
+        /// @tparam T The type of provided value
+        /// @tparam E2 How to interpret the endianness of the provided value
+        /// @param value The provided value
+        ///
+        /// Bits are copied from the LSB of the provided value to the LSB of this. If the value has
+        /// more bits than this view then the extra bits are ignored. If it has fewer then the extra
+        /// bits in this view are zeroed.
+        ///
+        /// This is only enabled for non-bit array types
+        template <typename T, Endian E2 = Endian::Native>
+        std::enable_if_t<!is_bitarray_v<T>, void> set(const T &value);
+
+        /// @brief Assignment is shorthand for the set method
+        template <typename T>
+        std::enable_if_t<!is_bitarray_v<T>, BitArrayView<E> &> operator=(const T &value);
 
         /// @brief Get a mutable proxy for the specified bit
         /// @param idx The bit index (counted from the least significant)
@@ -58,16 +75,6 @@ namespace Bytestream {
         /// @param idx The bit index (counted from the least significant)
         BitProxy at(std::size_t idx);
         using ConstBitArrayView<E>::at;
-
-        /// @brief Set contained memory from the provided value
-        /// @tparam T The type of provided value
-        /// @tparam E2 How to interpret the endianness of the provided value
-        /// @param value The provided value
-        ///
-        /// Bits are copied from the LSB of the provided value to the LSB of this. If the value has
-        /// more bits than this view then the extra bits are ignored. If it has fewer then the extra
-        /// bits in this view are zeroed.
-        template <typename T, Endian E2 = Endian::Native> void setFrom(const T &value);
 
         /// @brief Create a sub view over the same data
         /// @param pos Start from this position (measured from the LSB)
