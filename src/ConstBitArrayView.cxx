@@ -6,6 +6,7 @@
 #include <charconv>
 #include <memory>
 #include <stdexcept>
+#include <vector>
 
 namespace Bytestream {
 
