@@ -7,4 +7,3 @@ function(new_test TEST_NAME)
 endfunction()
 
 new_test(testBitManip)
-new_test(testBitCopy)
