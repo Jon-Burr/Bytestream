@@ -35,6 +35,8 @@ namespace Bytestream {
         BitArray(BitArray &&other);
         ~BitArray();
 
+        using BitArrayView<E>::operator=;
+
     private:
         bool m_owning{true};
     };
