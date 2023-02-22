@@ -68,7 +68,8 @@ namespace Bytestream {
         std::vector<std::string> bytes;
         bytes.reserve(nBytes);
         std::size_t remaining = size();
-        for (auto itr = aligned_byte_begin(); itr != aligned_byte_end(); remaining -= CHAR_BIT) {
+        for (auto itr = aligned_byte_begin(); itr != aligned_byte_end();
+             remaining -= CHAR_BIT, ++itr) {
             std::string value = Bytestream::toHex(*itr);
             if (remaining <= 4)
                 value = value.substr(1, 1);
