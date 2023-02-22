@@ -90,6 +90,11 @@ namespace Bytestream {
         /// The LSB is printed in the rightmost position
         std::string toBinary() const;
 
+        /// @brief Convert to a hexadecimal representation
+        ///
+        /// The LSB is printed in the rightmost position
+        std::string toHex() const;
+
         /// @brief Pointer to the start byte in memory
         const std::byte *data() const { return m_data; }
         /// @brief The number of bytes covered in memory

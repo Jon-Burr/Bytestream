@@ -10,6 +10,8 @@
 namespace Bytestream {
     /// @brief Convert a single byte to its binary form
     std::string toBinary(std::byte b);
+    /// @brief Convert a single byte to its hexadecimal form
+    std::string toHex(std::byte b);
 } // namespace Bytestream
 
 #endif //> !BYTESTREAM_STRING_HXX

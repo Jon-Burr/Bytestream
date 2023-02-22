@@ -62,6 +62,23 @@ namespace Bytestream {
         return result.substr(leftOffset, m_nBits);
     }
 
+    template <Endian E> std::string ConstBitArrayView<E>::toHex() const {
+        std::size_t nBytes = nCoveredBytes();
+        std::vector<std::string> bytes;
+        bytes.reserve(nBytes);
+        std::size_t remaining = size();
+        for (auto itr = aligned_byte_begin(); itr != aligned_byte_end(); remaining -= CHAR_BIT) {
+            std::string value = Bytestream::toHex(*itr);
+            if (remaining <= 4)
+                value = value.substr(1, 1);
+            bytes.push_back(value);
+        }
+        std::string result;
+        for (auto itr = bytes.rbegin(); itr != bytes.rend(); ++itr)
+            result += *itr;
+        return result;
+    }
+
     template <Endian E> const std::byte *ConstBitArrayView<E>::lsb() const {
         if constexpr (E == Endian::Little)
             return m_data;
