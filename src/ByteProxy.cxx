@@ -1,13 +1,14 @@
 #include "Bytestream/ByteProxy.hxx"
 #include "Bytestream/utils.hxx"
 
+#include <algorithm>
 #include <iterator>
 
 namespace Bytestream {
 
     template <typename Iterator>
     ConstByteProxy<Iterator>::ConstByteProxy(Iterator itr, uint8_t offset, uint8_t size)
-            : m_itr(itr), m_offset(offset), m_size(size) {}
+            : m_itr(itr), m_offset(offset), m_size(std::min(size, uint8_t(CHAR_BIT))) {}
 
     template <typename Iterator> std::byte ConstByteProxy<Iterator>::get() const {
         std::byte value = *m_itr >> m_offset;
@@ -15,7 +16,7 @@ namespace Bytestream {
             value |= *(m_itr + 1) << (CHAR_BIT - m_offset);
         return m_size >= CHAR_BIT ? value : value & createRightMask(m_size);
     }
-    
+
     template <typename Iterator> void ByteProxy<Iterator>::set(std::byte b) {
         copyPartialByte(
                 *(this->m_itr), b << this->m_offset,
