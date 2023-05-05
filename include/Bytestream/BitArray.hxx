@@ -40,6 +40,10 @@ namespace Bytestream {
     private:
         bool m_owning{true};
     };
+
+    template <typename T, Endian E = Endian::Native> BitArray<E> copyOf(const T &value) {
+        return BitArray<E>(&value, sizeof(T) * CHAR_BIT);
+    }
 } // namespace Bytestream
 
 #endif //> !BYTESTREAM_BITARRAY_HXX
