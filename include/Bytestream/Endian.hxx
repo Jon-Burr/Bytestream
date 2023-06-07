@@ -12,9 +12,9 @@
 #include <bit>
 namespace Bytestream {
     enum class Endian {
-        Little = std::endian::little,
-        Big = std::endian::big,
-        Native = std::endian::native
+        Little = static_cast<std::underlying_type_t<std::endian>>(std::endian::little),
+        Big = static_cast<std::underlying_type_t<std::endian>>(std::endian::big),
+        Native = static_cast<std::underlying_type_t<std::endian>>(std::endian::native)
     };
 } // namespace Bytestream
 #else
