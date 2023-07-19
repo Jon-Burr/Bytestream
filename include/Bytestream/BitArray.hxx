@@ -24,13 +24,13 @@ namespace Bytestream {
         /// @param data The data, assumed to presented in big-endian format
         static BitArray fromHex(const std::string &data);
         /// Create a byte array which holds n uninitialized bits
-        BitArray(std::size_t n);
+        explicit BitArray(std::size_t n);
         /// Create a bit array holding n copies of value
-        BitArray(std::size_t n, bool value);
+        explicit BitArray(std::size_t n, bool value);
         /// Create a bit array containing a copy of the provided data
-        BitArray(const void *data, std::size_t n);
+        explicit BitArray(const void *data, std::size_t n);
         /// Create a byte array containing a copy of the provided array
-        template <Endian E2> BitArray(const ConstBitArrayView<E2> &array);
+        template <Endian E2> explicit BitArray(const ConstBitArrayView<E2> &array);
         /// Move constructor
         BitArray(BitArray &&other);
         ~BitArray();
